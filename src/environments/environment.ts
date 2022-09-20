@@ -3,7 +3,15 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  contractAddress:"0x8DD130Cd016d322555f96C10861ed4d79A916337",
+  chainId: '0x13881',//mumbai
+  rpcURL: 'https://matic-mumbai.chainstacklabs.com',
+  networkName: 'Mumbai Testnet',
+  currencyName: 'MATIC',
+  currencySymbol: 'matic',
+  explorerURL: 'https://mumbai-explorer.matic.today/'
+ 
 };
 
 /*
