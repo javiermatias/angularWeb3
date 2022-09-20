@@ -13,7 +13,7 @@ export class AppComponent implements OnInit {
   accountConnected:string='';
 
 
-  constructor(private walletService:WalletService,private cdr:ChangeDetectorRef){
+  constructor(private walletService:WalletService){
   
   }
  ngOnInit():void{
@@ -22,7 +22,7 @@ export class AppComponent implements OnInit {
    
   }
 
-  async connect(){
+/*   async connect(){
     try {
       const account = await window['ethereum'].request({
         method: 'eth_requestAccounts',
@@ -32,13 +32,13 @@ export class AppComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
-  }
+  } */
 
-  checkMetaMask(){
+/*   checkMetaMask(){
      //Have to check the ethereum binding on the window object to see if it's installed
      
      return Boolean(window['ethereum'] && window['ethereum'].isMetaMask);
-  }
+  } */
 /*   ngAfterViewInit(): void{
     console.log("6. ngAfterViewInit from parent.");
     console.log( window.ethereum._state.accounts);

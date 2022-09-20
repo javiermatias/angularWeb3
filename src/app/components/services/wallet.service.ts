@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs'
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ethers } from "ethers";
-import Swal from 'sweetalert2';
+
 
 declare let window: any;
 
@@ -45,15 +45,7 @@ export class WalletService {
   }
 
   async connect() {
-    if (!this.existsMetamask()) {
-      Swal.fire(
-        {
-          icon: 'error',
-          title: 'Opss..',
-          text: 'Debes Instalar Metamask'
-        }
-      )
-    } else {
+    if (this.existsMetamask()) {
       try {
         await this.chainNetwork();
         const account = await this.ethereum.request({
@@ -84,6 +76,7 @@ export class WalletService {
       }else{
           throw error;
       }
+      
     }
   }
 
@@ -115,12 +108,12 @@ export class WalletService {
     return this.ethereum.selectedAddress;
   }
 
-  emitAddressConnected() {
+/*   emitAddressConnected() {
     if (this.existsMetamask()) {
       let address = this.getAddressConnnected();
       if (address) this.userAddress.next(address);
       console.log(address);
     }
-  }
+  } */
 
 }

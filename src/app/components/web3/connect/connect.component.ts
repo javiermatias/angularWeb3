@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { WalletService } from '../../services/wallet.service';
-
+import Swal from 'sweetalert2';
 @Component({
   selector: 'app-connect',
   templateUrl: './connect.component.html',
@@ -16,10 +16,16 @@ export class ConnectComponent implements OnInit {
   }
 
   connect(){
-  this.walletService.connect().then(x => console.log("Se conecto correctamnete")).catch(x=>console.log("hubo un error"));
+  this.walletService.connect().then(x => console.log("user conectar")).catch(x => Swal.fire(
+    {
+      icon: 'error',
+      title: 'Opss..',
+      text: 'Debes Instalar Metamask'
+    }
+  ));
   }
 
    isConnect(){
-    this.walletService.emitAddressConnected();
+    //this.walletService.emitAddressConnected();
    }
 }
