@@ -53,23 +53,17 @@ export class WalletService {
       (data: any) => this.contractABI = data.abi);
   }
 
-  async connect() {
+  async connect():Promise<boolean> {
     if (this.existsMetamask() && await this.chainNetwork()) {
       try {
         const account = await this.ethereum.request({
           method: 'eth_requestAccounts',
         });
+        await this.signData("nonce desde server");
         this.userAddress.next(account[0]);
+        return true;
       } catch (error: any) {
-        if (error.code == 4902) {
-          Swal.fire(
-            {
-              icon: 'error',
-              title: 'Opss..',
-              text: 'Qatar prode funciona sobre la red de Polygon(matic), por favor instala esa red. Mas abajo veras las instruccioens.'
-            }
-          )
-        } else {
+      
           Swal.fire(
             {
               icon: 'error',
@@ -77,10 +71,12 @@ export class WalletService {
               text: 'Ocurrio un error por favor intenta de vuelta '
             }
           )
-        }
-        //loguear error
+        
+        console.log("Error" + error.message);
+       
       }
     }
+    return false;
 
 
   }
@@ -109,7 +105,9 @@ export class WalletService {
     }
   }
 
-  async addChain() {
+  async addChain(): Promise<boolean> {
+   
+   try {
     await window.ethereum.request({
       method: 'wallet_addEthereumChain',
       params: [
@@ -127,6 +125,14 @@ export class WalletService {
         },
       ],
     });
+    return true;
+    
+   } catch (error:any) {
+    console.log(`Error in add chain ${error.message}`)
+    return false;
+    
+   }
+   
   }
   isConnected(): boolean {
     return this.ethereum.selectedAddress ? true : false;
@@ -145,18 +151,19 @@ export class WalletService {
   }
 
 
-  async signData(_nonce: string) {
+  async signData(_nonce: string):Promise<string> {
     try {
       const from = this.getAddressConnnected();
       const sign = await this.ethereum.request({
         method: 'eth_signTypedData_v4',
         params: [from, JSON.stringify(this.params.getMsgParam(_nonce))],
       });
-      console.log(sign)
 
+      console.log(sign)
+      return sign;
     } catch (err) {
       console.error(err);
-      // signTypedDataV4Result.innerHTML = `Error: ${err.message}`;
+      return "";
     }
   };
 
