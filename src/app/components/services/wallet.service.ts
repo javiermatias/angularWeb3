@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable } from 'rxjs'
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { ethers } from "ethers";
-
+import Swal from 'sweetalert2';
 
 declare let window: any;
 
@@ -14,6 +14,7 @@ export class WalletService {
 
 
   connected = new BehaviorSubject<boolean>(false);
+  changeUser = new BehaviorSubject<boolean>(false);
   userAddress = new BehaviorSubject<string>("");
   contractAddress = environment.contractAddress;
   configUrl = 'assets/simple-abi.json';
@@ -26,7 +27,13 @@ export class WalletService {
     if(this.existsMetamask()){
       console.log("Hay Billetera");
     }else{
-      console.log("No hay billetera")
+      Swal.fire(
+        {
+          icon: 'error',
+          title: 'Opss..',
+          text: 'Debes Instalar Metamask'
+        }
+      )
     }
 
   }
@@ -53,7 +60,7 @@ export class WalletService {
         });
 
         this.userAddress.next(account[0]);
-       
+        this.listenChangeUser();
       } catch (error) {
         console.error(error);
         throw error;
@@ -72,7 +79,7 @@ export class WalletService {
     } catch (error: any) {
       
       if (error.code == 4902) {
-        await this.addChain();
+        //await this.addChain();
       }else{
           throw error;
       }
@@ -99,14 +106,22 @@ export class WalletService {
       ],
     });
   }
-  isConnected(): boolean {
-
+  isConnected(): boolean {    
     return this.ethereum.selectedAddress ? true : false;
   }
   getAddressConnnected(): string | undefined {
     console.log(this.ethereum.selectedAddress);
     return this.ethereum.selectedAddress;
   }
+
+  listenChangeUser(){
+    this.ethereum.on('accountsChanged', 
+    (account:any) => {
+      this.userAddress.next(account[0]);
+    });
+  }
+
+
 
 /*   emitAddressConnected() {
     if (this.existsMetamask()) {
