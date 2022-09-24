@@ -18,9 +18,11 @@ export class AppComponent implements OnInit {
   }
  ngOnInit():void{
    
-   //const myTimeout = setTimeout(() => this.walletService.emitAddressConnected(), 500);
+
    
   }
+
+  
 
 /*   async connect(){
     try {
