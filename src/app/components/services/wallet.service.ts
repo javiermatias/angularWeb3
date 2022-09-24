@@ -53,10 +53,10 @@ export class WalletService {
     return false;
   }
 
-  getConfig() {
-    this.http.get<any>(this.configUrl).subscribe(
-      (data: any) => this.contractABI = data.abi);
-  }
+  /*   getConfig() {
+      this.http.get<any>(this.configUrl).subscribe(
+        (data: any) => this.contractABI = data.abi);
+    } */
 
   /*   getNonce(address: string) {
       this.http.get<Number>(address).subscribe(
@@ -94,18 +94,19 @@ export class WalletService {
           method: 'eth_requestAccounts',
         });
         //Fetch nonce from server
+
         let nonce = await this.getNonce(account[0]);
         console.log(nonce);
-        let signN = await this.signData(nonce)
+        let signN = await this.signData(nonce, account[0])
         if (signN !== "") {
           let _sign: Sign = { address: account[0], sign: signN }
           await this.postNonce(_sign);
           this.userAddress.next(account[0]);
           return true;
         }
-        
+
         this.fireAlert("Hubo un problema al firmar la transaccion");
-        
+
 
       } catch (error: any) {
 
@@ -187,16 +188,21 @@ export class WalletService {
 
   listenChangeUser() {
     this.ethereum.on('accountsChanged',
-      (account: any) => {
+      async (account: any) => {
         this.userAddress.next(account[0]);
+        await this.connect();
         console.log(account[0]);
       });
   }
 
+  areInSameUser() {
 
-  async signData(_nonce: string): Promise<string> {
+  }
+
+
+  async signData(_nonce: string, _address: string): Promise<string> {
     try {
-      const from = this.getAddressConnnected();
+      const from = _address;
       const sign = await this.ethereum.request({
         method: 'eth_signTypedData_v4',
         params: [from, JSON.stringify(this.params.getMsgParam(_nonce))],
@@ -210,7 +216,7 @@ export class WalletService {
     }
   };
 
-  fireAlert(_msg:string){
+  fireAlert(_msg: string) {
     Swal.fire(
       {
         icon: 'error',
