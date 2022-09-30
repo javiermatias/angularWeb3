@@ -10,8 +10,8 @@ export const environment = {
   networkName: 'Mumbai Testnet',
   currencyName: 'MATIC',
   currencySymbol: 'matic',
-  explorerURL: 'https://mumbai-explorer.matic.today/'
- 
+  explorerURL: 'https://mumbai-explorer.matic.today/',
+  endpoint:'http://localhost:3000/sign'
 };
 
 /*

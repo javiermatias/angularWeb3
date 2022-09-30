@@ -6,6 +6,7 @@ import { MsgParam } from './msg-param';
 import { Sign } from './sign';
 import Swal from 'sweetalert2';
 
+
 declare let window: any;
 
 @Injectable({
@@ -17,13 +18,11 @@ export class WalletService {
   connected = new BehaviorSubject<boolean>(false);
   changeUser = new BehaviorSubject<boolean>(false);
   userAddress = new BehaviorSubject<string>("");
-  contractAddress = environment.contractAddress;
-  configUrl = 'assets/simple-abi.json';
-  contractABI: string = '';
+
   ethereum: any = null;
   params: MsgParam;
   nonce: Number = 0;
-  endPoint: string = 'http://localhost:3000/sign';
+  endPoint: string = environment.endpoint;
   sign: Sign | undefined;
 
 
@@ -224,6 +223,10 @@ export class WalletService {
         text: _msg
       }
     )
+  }
+
+  getBlockUses(){
+
   }
 
 }

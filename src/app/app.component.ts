@@ -1,6 +1,7 @@
-import { ChangeDetectorRef, Component, Inject, OnInit} from '@angular/core';
+import { Component,  OnInit} from '@angular/core';
+import { ContractService } from './components/contract/contract.service';
 import { WalletService } from './components/services/wallet.service';
-
+import { NgxSpinnerService } from "ngx-spinner";
 declare let window: any;
 
 @Component({
@@ -13,13 +14,44 @@ export class AppComponent implements OnInit {
   accountConnected:string='';
 
 
-  constructor(private walletService:WalletService){
+  constructor(private walletService:WalletService, 
+    private contract: ContractService,
+    private spinner: NgxSpinnerService){
   
   }
  ngOnInit():void{
-   
+  this.spinner.show();
+
+  setTimeout(() => {
+    /** spinner ends after 5 seconds */
+    this.spinner.hide();
+  }, 3000);
 
    
+  }
+
+   async getUsers(){
+    
+    console.log("before");
+    this.spinner.show();
+   await this.contract.getUserEnter();
+   this.spinner.hide();
+    console.log("after");
+  }
+
+  async deposit(){
+   try{
+    console.log("before");
+    this.spinner.show();
+   await this.contract.deposit();
+   
+    console.log("after");
+   }catch(error){
+  
+   }finally{
+    this.spinner.hide();
+   }
+
   }
 
   

@@ -8,7 +8,11 @@
 <br>
 <br>
 <app-connect></app-connect>
-<app-show-wallet></app-show-wallet>  
+<app-show-wallet></app-show-wallet>
 
+<button (click)="getUsers()">Get Users</button>
 
-
+<button (click)="deposit()">Deposit</button>
+<ngx-spinner bdColor="rgba(185,76,76,0.8)" size="medium" color="#fcfcfc" type="pacman" [fullScreen]="true">
+    <p style="color: white"> Loading... </p>
+</ngx-spinner>
