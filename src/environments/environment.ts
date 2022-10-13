@@ -11,7 +11,8 @@ export const environment = {
   currencyName: 'MATIC',
   currencySymbol: 'matic',
   explorerURL: 'https://mumbai-explorer.matic.today/',
-  endpoint:'http://localhost:3000/sign'
+  endpoint:'http://localhost:3000/sign',
+  configUrl:'assets/prode-abi.json'
 };
 
 /*

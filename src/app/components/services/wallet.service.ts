@@ -52,15 +52,6 @@ export class WalletService {
     return false;
   }
 
-  /*   getConfig() {
-      this.http.get<any>(this.configUrl).subscribe(
-        (data: any) => this.contractABI = data.abi);
-    } */
-
-  /*   getNonce(address: string) {
-      this.http.get<Number>(address).subscribe(
-        (data: Number) => this.contractABI = data.abi);
-    } */
   getNonce(address: string): Promise<any> {
     return new Promise((resolve, reject) => {
       this.http

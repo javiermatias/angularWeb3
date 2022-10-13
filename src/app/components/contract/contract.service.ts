@@ -5,7 +5,7 @@ import { environment } from 'src/environments/environment';
 declare let window: any;
 import { Contract } from 'web3-eth-contract';
 import { HttpClient } from '@angular/common/http';
-import Swal from 'sweetalert2';
+
 import { AlertService } from '../services/alert.service';
 @Injectable({
   providedIn: 'root'
